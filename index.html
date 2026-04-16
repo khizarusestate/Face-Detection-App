@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Face Recognition System</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🎯 Face Recognition System</h1>
+        <p>Real-time face detection and recognition</p>
+      </header>
+
+      <div class="main-content">
+        <!-- Video Stream Section -->
+        <div class="video-section">
+          <div class="video-container">
+            <video id="video" autoplay playsinline></video>
+            <canvas id="canvas"></canvas>
+            <div id="recognitionLabel" class="recognition-label"></div>
+          </div>
+          <div class="video-info">
+            <p id="faceCount">Faces detected: 0</p>
+            <p id="mode">Mode: Idle</p>
+          </div>
+        </div>
+
+        <!-- Control Panel Section -->
+        <div class="control-panel">
+          <div class="control-group">
+            <h3>📸 Enrollment</h3>
+            <div class="input-group">
+              <input
+                type="text"
+                id="personName"
+                placeholder="Enter person's name"
+                maxlength="30"
+              />
+              <button id="addFaceBtn" class="btn btn-primary">
+                Add Face Sample
+              </button>
+            </div>
+            <p id="enrollmentStatus" class="status-message"></p>
+          </div>
+
+          <div class="control-group">
+            <h3>🔍 Recognition</h3>
+            <button id="startRecognitionBtn" class="btn btn-success">
+              Start Recognition
+            </button>
+            <button id="stopRecognitionBtn" class="btn btn-warning" disabled>
+              Stop Recognition
+            </button>
+            <p id="recognitionStatus" class="status-message"></p>
+          </div>
+
+          <div class="control-group">
+            <h3>⚙️ Database</h3>
+            <div class="database-stats">
+              <p>Enrolled Faces: <span id="enrolledCount">0</span></p>
+              <p>Total Samples: <span id="samplesCount">0</span></p>
+            </div>
+            <button id="viewDatabaseBtn" class="btn btn-info">
+              View Database
+            </button>
+            <button id="resetDatabaseBtn" class="btn btn-danger">
+              Reset Database
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Database Viewer Modal -->
+      <div id="databaseModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Face Database</h2>
+            <span class="close">&times;</span>
+          </div>
+          <div id="databaseList" class="database-list"></div>
+          <div class="modal-footer">
+            <button id="closeModalBtn" class="btn btn-secondary">Close</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Indicator -->
+      <div id="loadingIndicator" class="loading">
+        <div class="spinner"></div>
+        <p>Initializing...</p>
+      </div>
+    </div>
+
+    <!-- External Libraries -->
+    <!-- Load MediaPipe Tasks Vision as a module -->
+    <script type="importmap">
+      {
+        "imports": {
+          "@mediapipe/tasks-vision": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0"
+        }
+      }
+    </script>
+
+    <!-- Module wrapper to load MediaPipe globally -->
+    <script type="module">
+      import * as Vision from "@mediapipe/tasks-vision";
+      window.FilesetResolver = Vision.FilesetResolver;
+      window.FaceDetector = Vision.FaceDetector;
+      console.log("✅ MediaPipe library loaded globally");
+    </script>
+
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
+    ></script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+    ></script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0"
+    ></script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7"
+    ></script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/ml-matrix@6.10.4/dist/ml-matrix.min.js"
+    ></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>

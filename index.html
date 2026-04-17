@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Face Recognition System</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🎯 Face Recognition System</h1>
+        <p>Real-time face detection and recognition</p>
+      </header>
+
+      <div class="main-content">
+        <!-- Video Stream Section - CLEAN -->
+        <div class="video-section">
+          <div class="video-container">
+            <video id="video" autoplay playsinline></video>
+            <canvas id="canvas"></canvas>
+            <div id="recognitionLabel" class="recognition-label"></div>
+          </div>
+        </div>
+
+        <!-- Right Side Panel - Recognition & Database Info -->
+        <div class="info-panel">
+          <div class="control-group">
+            <h3>📊 Live Info</h3>
+            <p id="faceCount" class="live-info">Faces detected: 0</p>
+            <p id="mode" class="live-info">Mode: Idle</p>
+            <div id="detectionDetails" class="detection-details"></div>
+          </div>
+
+          <div class="control-group">
+            <h3>🔍 Recognition</h3>
+            <button id="startRecognitionBtn" class="btn btn-success">
+              Start Recognition
+            </button>
+            <button id="stopRecognitionBtn" class="btn btn-warning" disabled>
+              Stop Recognition
+            </button>
+            <p id="recognitionStatus" class="status-message"></p>
+          </div>
+
+          <div class="control-group">
+            <h3>⚙️ Database</h3>
+            <div class="database-stats">
+              <p>Enrolled Faces: <span id="enrolledCount">0</span></p>
+              <p>Total Samples: <span id="samplesCount">0</span></p>
+            </div>
+            <button id="viewDatabaseBtn" class="btn btn-info">
+              View Database
+            </button>
+            <div class="input-group" style="margin-top: 10px">
+              <button id="exportDatabaseBtn" class="btn btn-success">
+                💾 Export Data
+              </button>
+              <button id="importDatabaseBtn" class="btn btn-info">
+                📥 Import Data
+              </button>
+            </div>
+            <input
+              type="file"
+              id="importFileInput"
+              accept=".json"
+              style="display: none"
+            />
+            <button id="resetDatabaseBtn" class="btn btn-danger">
+              Reset Database
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enrollment Section - Bottom -->
+      <div class="enrollment-section">
+        <div class="control-group">
+          <h3>📸 Enrollment</h3>
+          <div class="input-group">
+            <input
+              type="text"
+              id="personName"
+              placeholder="Enter name"
+              maxlength="30"
+            />
+            <input
+              type="number"
+              id="personAge"
+              placeholder="Age"
+              min="1"
+              max="120"
+            />
+          </div>
+          <div class="input-group">
+            <input
+              type="number"
+              id="personWeight"
+              placeholder="Weight (kg)"
+              step="0.1"
+              min="1"
+            />
+            <input
+              type="text"
+              id="personNationality"
+              placeholder="Nationality"
+              maxlength="30"
+            />
+          </div>
+          <button id="addFaceBtn" class="btn btn-primary">
+            Add Face Sample
+          </button>
+          <p id="enrollmentStatus" class="status-message"></p>
+        </div>
+      </div>
+
+      <!-- Database Viewer Modal -->
+      <div id="databaseModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Face Database</h2>
+            <span class="close">&times;</span>
+          </div>
+          <div id="databaseList" class="database-list"></div>
+          <div class="modal-footer">
+            <button id="closeModalBtn" class="btn btn-secondary">Close</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Indicator -->
+      <div id="loadingIndicator" class="loading">
+        <div class="spinner"></div>
+        <p>Initializing...</p>
+      </div>
+    </div>
+
+    <!-- External Libraries -->
+    <!-- Load MediaPipe Tasks Vision as a module -->
+    <script type="importmap">
+      {
+        "imports": {
+          "@mediapipe/tasks-vision": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0"
+        }
+      }
+    </script>
+
+    <!-- Module wrapper to load MediaPipe globally -->
+    <script type="module">
+      import * as Vision from "@mediapipe/tasks-vision";
+      window.FilesetResolver = Vision.FilesetResolver;
+      window.FaceDetector = Vision.FaceDetector;
+      window.HandLandmarker = Vision.HandLandmarker;
+      console.log("✅ MediaPipe library loaded globally");
+    </script>
+
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
+    ></script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+    ></script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0"
+    ></script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7"
+    ></script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/ml-matrix@6.10.4/dist/ml-matrix.min.js"
+    ></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
